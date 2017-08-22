@@ -1,9 +1,14 @@
 {
-  "name": "blooddonor.server",
-  "version": "0.0.0",
+  "name": "donor-code-form",
+  "version": "1.0.0",
+  "description": "Donor code form",
   "private": true,
+  "main": "app.js",
   "scripts": {
-    "start": "node ./bin/www"
+    "start": "node app.js"
+  },
+  "engines": {
+    "node": ">=4.3"
   },
   "dependencies": {
     "body-parser": "~1.17.1",
