@@ -15,8 +15,8 @@
     "debug": "~2.6.3",
     "express": "~4.15.2",
     "morgan": "~1.8.1",
-    "mustache": "^2.3.0",
-    "mustache-express": "^1.2.5",
-    "parse": "^1.10.0"
+    "mustache": "~2.3.0",
+    "mustache-express": "~1.2.5",
+    "parse": "~1.10.0"
   }
 }
