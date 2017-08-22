@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<script type="text/javascript" src="http://code.jquery.com/jquery-3.2.1.js"></script>
+	</head>
+	<body>
+		Пользователь: {{userId}}<br />
+		Введите ваш код:
+		<input type="hidden" id="donor-user-id" value="{{userId}}" />
+		<input type="text" id="donor-code" maxlength="20" />
+		<button id="send-donor-code-button">Отправить</button>
+
+		<script type="text/javascript">
+			$(function() {
+				$('#send-donor-code-button').click(function () {
+					var userId = $('#donor-user-id').val();
+					if (!userId || !userId.length) {
+						alert('Произошла ошибка, попробуйте еще раз');
+						return;
+					}
+
+					var code = $('#donor-code').val();
+					if (!code || !(code.length === 16 || code.length === 20)) {
+						alert('Произошла ошибка, попробуйте еще раз');
+						return;
+					}
+
+					$.ajax({
+						method: 'post',
+						url: '/code',
+						data: {
+							userId: userId,
+							code: code
+						},
+						success: function (response) {
+							console.log(response);
+							if (response.success === true) {
+								alert(response.message);
+								document.location.href = response.redirectUrl;
+							} else if (response.success === false) {
+								alert(response.message);
+							} else {
+								alert('Произошла ошибка, попробуйте еще раз');
+							}
+						}
+					});
+				});
+			});
+		</script>
+	</body>
+</html>
