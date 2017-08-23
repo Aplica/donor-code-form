@@ -2,24 +2,87 @@
 <html>
 	<head>
 		<script type="text/javascript" src="//code.jquery.com/jquery-3.2.1.js"></script>
+		<style>
+			body {
+				background-color: #f3f4f7;
+				font-family: Arial;
+			}
+			#code-form {
+				width: 290px;
+				margin: 0 auto;
+				text-align: center;
+				background-color: white;
+				padding: 40px;
+				border-radius: 10px;
+			}
+			#code-form-logo {
+				margin: 0 0 10px 0;
+			}
+			#code-form-title {
+				padding: 8px 0;
+			}
+			#code-form-input {
+				border: solid 1px #005887;
+				color: #136994;
+				border-radius: 3px;
+				padding: 8px 4px;
+				width: 280px;
+				text-align: center;
+				font-size: 14pt;
+			}
+			#code-form-button {
+				margin: 20px 0 0 0;
+				background-color: #ED241B;
+				color: white;
+				width: 200px;
+				height: 46px;
+				border: 0;
+				border-radius: 23px;
+				-webkit-appearance: none;
+				font-size: 14pt;
+				outline: 0;
+				cursor: pointer;
+			}
+			#code-form-button:hover {
+				box-shadow: 4px 8px 20px 0px rgba(255,0,0,0.3);
+			}
+		</style>
 	</head>
 	<body>
-		Пользователь: {{userId}}<br />
-		Введите ваш код:
-		<input type="hidden" id="donor-user-id" value="{{userId}}" />
-		<input type="text" id="donor-code" maxlength="20" />
-		<button id="send-donor-code-button">Отправить</button>
+		<div id="code-form">
+			<input type="hidden" id="code-form-user-id" value="{{userId}}" />
+			<img id="code-form-logo" src="/images/code-form-logo.png" width="134" height="79" alt="" />
+			<div id="code-form-title">Введите ваш код</div>
+			<input type="text" id="code-form-input" value="" maxlength="24" onkeypress="return isNumber(event);" />
+			<button id="code-form-button">Отправить</button>
+		</div>
 
 		<script type="text/javascript">
+			function isNumber(evt) {
+				evt = (evt) ? evt : window.event;
+				var charCode = (evt.which) ? evt.which : evt.keyCode;
+				if (charCode > 31 && (charCode < 48 || charCode > 57)) {
+					return false;
+				}
+				return true;
+			}
+
 			$(function() {
-				$('#send-donor-code-button').click(function () {
-					var userId = $('#donor-user-id').val();
+				$('#code-form-input').keyup(function(evt) {
+					var text = $(this).val().replace(/\s/g, '');
+					var parts = text.match(/.{1,4}/g);
+					text = parts.join(' ');
+					$(this).val(text);
+				});
+
+				$('#code-form-button').click(function () {
+					var userId = $('#code-form-user-id').val();
 					if (!userId || !userId.length) {
 						alert('Произошла ошибка, попробуйте еще раз');
 						return;
 					}
 
-					var code = $('#donor-code').val();
+					var code = $('#code-form-input').val().replace(/\D/g, '');
 					if (!code || !(code.length === 16 || code.length === 20)) {
 						alert('Произошла ошибка, попробуйте еще раз');
 						return;
