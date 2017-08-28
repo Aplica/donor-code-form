@@ -51,7 +51,7 @@
 	<body>
 		<div id="code-form">
 			<input type="hidden" id="code-form-user-id" value="{{userId}}" />
-			<img id="code-form-logo" src="/images/code-form-logo.png" width="134" height="79" alt="" />
+			<img id="code-form-logo" src="/images/code-form-logo.png" srcset="/images/code-form-logo@2x.png 2x" width="134" height="79" alt="" />
 			<div id="code-form-title">Введите ваш код</div>
 			<input type="text" id="code-form-input" value="" maxlength="24" onkeypress="return isNumber(event);" />
 			<button id="code-form-button">Отправить</button>
@@ -69,10 +69,14 @@
 
 			$(function() {
 				$('#code-form-input').keyup(function(evt) {
-					var text = $(this).val().replace(/\s/g, '');
+					var text = $(this).val().replace(/\D/g, '');
 					var parts = text.match(/.{1,4}/g);
-					text = parts.join(' ');
-					$(this).val(text);
+					if (parts && parts.length) {
+						text = parts.join(' ');
+						$(this).val(text);
+					} else {
+						$(this).val('');
+					}
 				});
 
 				$('#code-form-button').click(function () {
